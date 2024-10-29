@@ -28,4 +28,4 @@ class Solution {
 $solution = new Solution();
 echo $solution->canPlaceFlowers([1,0,0,0,1],1) ? "true" : "false";
 echo "\n";
-echo $solution->canPlaceFlowers([1, 0, 0, 0, 1], 2) ? "true" : "false";  // Output: false
+echo $solution->canPlaceFlowers([1, 0, 0, 0, 0, 0, 1], 2) ? "true" : "false";  // Output: false
