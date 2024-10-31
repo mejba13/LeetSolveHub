@@ -1,31 +1,31 @@
 <?php
 
 class Solution {
+    // Property to hold the input string
 
-    function canPlaceFlowers($flowerbed, $n){
-        $lenght = count($flowerbed);
+    // Method to reverse the words in the string
+    public function reverseWords($s) {
+        // Trim the input string to remove any leading or trailing spaces
+        $trimmedString = trim($s);
 
-        for($i = 0; $i < $lenght; $i++){
-            if($flowerbed[$i] == 0){
-                $emptyLeft = ($i == 0) || ($flowerbed[$i - 1] == 0);
-                $emptyRight = ($i == $lenght - 1) || ($flowerbed[$i + 1] == 0);
+        // Split the trimmed string by spaces to get an array of words
+        $words = explode(' ', $trimmedString);
 
-                if ($emptyLeft && $emptyRight) {
-                    $flowerbed[$i] = 1;
-                    $n--;
+        // Filter out any empty elements (caused by multiple spaces)
+        $filteredWords = array_filter($words, fn($word) => $word !== '');
 
-                    if($n <= 0) {
-                        return true;
-                    }
-                }
-            }
-        }
+        // Reverse the array of words
+        $reversedWords = array_reverse($filteredWords);
 
-        return $n <= 0;
+        // Join the reversed words with a single space
+        $result = implode(' ', $reversedWords);
+
+        return $result;
     }
 }
 
+
 $solution = new Solution();
-echo $solution->canPlaceFlowers([1,0,0,0,1],1) ? "true" : "false";
-echo "\n";
-echo $solution->canPlaceFlowers([1, 0, 0, 0, 1], 2) ? "true" : "false";  // Output: false
+$output = $solution->reverseWords("the sky is blue");
+echo $output;
+
