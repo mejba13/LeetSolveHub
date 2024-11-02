@@ -34,5 +34,4 @@ class Solution {
 $solution = new Solution();
 $chars = ["a", "a", "b", "b", "c", "c", "c"];
 echo $newLength = $solution->compress($chars);
-echo "<br/>";
 echo implode('', array_slice($chars, 0, $newLength)) . "\n";
