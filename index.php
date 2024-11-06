@@ -1,33 +1,21 @@
 <?php
-
 class Solution {
 
-    function maxOperations($num, $k) {
-        $map = [];
-        $operations = 0;
+    function findMaxAverage($nums, $k)
+    {
+         $window_sum = array_sum(array_slice($nums, 0, $k));
+         $max_sum = $window_sum;
 
-        foreach ($num as $num) {
-            $complement = $k - $num;
+         for ($i = $k; $i < count($nums); $i++) {
+             $window_sum = $window_sum - $nums[$i-$k] + $nums[$i]; //51 42
+             $max_sum = max($max_sum, $window_sum);
+         }
 
-            if (isset($map[$complement]) && $map[$complement] > 0) {
-                $operations ++;
-                $map[$complement]--;
-
-                if($map[$complement] == 0) {
-                    unset($map[$complement]);
-                }
-            } else {
-                if(isset($map[$num])) {
-                    $map[$num]++;
-                } else {
-                    $map[$num] = 1;
-                }
-            }
-        }
-        return $operations;
+         return $max_sum / $k;
     }
 }
 
 $solution = new Solution();
-echo $solution->maxOperations([1,2,3,4], 5) ."<br>";
-echo $solution->maxOperations([3, 1, 3, 4, 3], 6);
+echo $solution->findMaxAverage([1,12,-5,-6,50,3],4);
+echo "\n";
+echo $solution->findMaxAverage([5],1);

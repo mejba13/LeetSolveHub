@@ -11,7 +11,7 @@ class Solution {
 
             if (isset($map[$complement]) && $map[$complement] > 0) {
                 $operations ++;
-                $map[$complement]--;
+                echo $map[$complement]--;
 
                 if($map[$complement] == 0) {
                     unset($map[$complement]);
@@ -30,4 +30,4 @@ class Solution {
 
 $solution = new Solution();
 echo $solution->maxOperations([1,2,3,4], 5) ."<br>";
-echo $solution->maxOperations([3, 1, 3, 4, 3], 6);
+//echo $solution->maxOperations([3, 1, 3, 4, 3], 6);
