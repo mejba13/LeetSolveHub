@@ -1,29 +1,24 @@
 <?php
-class Solution {
-    function  longestOnes($nums, $k)
-    {
-        $left = 0;
-        $zeroCount = 0;
-        $maxlength = 0;
 
-        for ($right = 0; $right < count($nums); $right++) {
-            if ($nums[$right] == 0 ) {
-                $zeroCount++;
+class Solution {
+
+    function subSequence($a,$b)
+    {
+        $c = 0;
+        $d = 0;
+
+        while ($c < strlen($a) && $d < strlen($b)) {
+            if ($a[$c] == $b[$d]) {
+                $c++;
             }
-            while ($zeroCount > $k) {
-                if($nums[$left] == 0){
-                    $zeroCount--;
-                }
-                $left++;
-            }
-            $maxlength = max($maxlength, $right - $left + 1);
+            $d++;
         }
 
-        return $maxlength;
+        return $c == strlen($a);
     }
 }
 
 $solution = new Solution();
-echo $solution->longestOnes([1,1,1,0,0,0,1,1,1,1,0],2);
-echo "<br>";
-echo $solution->longestOnes([0,0,1,1,1,0,0,1,1,1,1],3);
+echo $solution->subSequence("abc", "abcdefh") ? "ture" : "false";
+echo "\n";
+echo $solution->subSequence("xyz", "abcekjkd") ? "ture" : "false";
