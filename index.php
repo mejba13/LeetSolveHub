@@ -1,19 +1,27 @@
 <?php
 
 class Solution {
-    function largestAltitude($gain){
-        $altitude = 0;
-        $maxAltitude = 0;
 
-        foreach($gain as $g){
-            $altitude +=$g;
-            $maxAltitude = max($maxAltitude, $altitude);
+    function pivotIndex($nums){
+
+        $totalSum = array_sum($nums); //28
+        $leftSum = 0;
+
+        foreach ($nums as $i => $num) {
+
+            if($leftSum == $totalSum - $leftSum - $num) {
+                return $i;
+            }
+            $leftSum += $num;
         }
 
-        return $maxAltitude;
+        return -1;
     }
 }
+
 $solution = new Solution();
-echo $solution->largestAltitude([-5,1,5,0,-7]);
+echo $solution->pivotIndex([1,7,3,6,5,6]);
 echo "\n";
-echo $solution->largestAltitude([-4,-3,-2,-1,4,3,2]);
+echo $solution->pivotIndex([1,2,3]);
+echo "\n";
+echo $solution->pivotIndex([2,1,-1]);
