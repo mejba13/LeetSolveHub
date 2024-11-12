@@ -4,13 +4,13 @@ class Solution {
 
     function findDifference($num1, $num2)
     {
-         $set1 = array_unique($num1);
-         $set2 = array_unique($num2);
+        $set1 = array_unique($num1);
+        $set2 = array_unique($num2);
 
-         $diff1 = array_diff($set1, $set2);
-         $diff2 = array_diff($set2, $set1);
+        $diff1 = array_diff($set1, $set2);
+        $diff2 = array_diff($set2, $set1);
 
-         return [array_values($diff1), array_values($diff2)];
+        return [array_values($diff1), array_values($diff2)];
     }
 }
 
