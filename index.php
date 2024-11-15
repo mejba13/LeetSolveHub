@@ -1,32 +1,35 @@
 <?php
 
 class Solution {
-    function closeStrings($word1, $word2) {
 
-        if (strlen($word1) != strlen($word2)) {
-            return false;
-        }
+    function equalPairs($grid)
+    {
+       $count = 0;
+       $n =  count($grid);
 
-        $count1 = array_count_values(str_split($word1));
-        $count2 = array_count_values(str_split($word2));
+       for ($i = 0; $i < $n; $i++) {
+           for ($j = 0; $j < $n; $j++) {
+               $isEqual = true;
 
-       if(count(array_diff_key($count1, $count2)) !== 0 || count(array_diff_key($count2, $count1)) !== 0) {
-           return false;
+               for ($k = 0; $k < $n; $k++) {
+                   if ($grid[$i][$k] != $grid[$k][$j]) {
+                       $isEqual = false;
+                       break;
+                   }
+               }
+
+               if ($isEqual) {
+                   $count++;
+               }
+           }
        }
 
-        $value1 = array_values($count1);
-        $value2 = array_values($count2);
+       return $count;
 
-       print_r( sort($value1));
-        print_r( sort($value2));
-
-        return $value1 == $value2;
     }
 }
 
 $solution = new Solution();
-echo $solution->closeStrings('abc', 'bca') ? "true" : "false";
+echo $solution->equalPairs([[3,2,1],[1,7,6],[2,7,7]]);
 echo "\n";
-echo $solution->closeStrings('a', 'aa') ? "true" : "false";
-echo "\n";
-echo $solution->closeStrings('cabbba', 'abbccc') ? "true" : "false";
+echo $solution->equalPairs([[3,1,2,2],[1,4,4,5],[2,4,2,2],[2,4,2,2]]);
