@@ -1,35 +1,21 @@
 <?php
 
 class Solution {
-
-    function equalPairs($grid)
+    function removeStars($s)
     {
-       $count = 0;
-       $n =  count($grid);
+       $stack = [];
 
-       for ($i = 0; $i < $n; $i++) {
-           for ($j = 0; $j < $n; $j++) {
-               $isEqual = true;
-
-               for ($k = 0; $k < $n; $k++) {
-                   if ($grid[$i][$k] != $grid[$k][$j]) {
-                       $isEqual = false;
-                       break;
-                   }
-               }
-
-               if ($isEqual) {
-                   $count++;
-               }
+       for ($i = 0; $i < strlen($s); $i++) {
+           if($s[$i] == '*'){
+               array_pop($stack);
+           }else {
+               $stack[] = $s[$i];
            }
        }
-
-       return $count;
-
+       return implode($stack);
     }
 }
-
 $solution = new Solution();
-echo $solution->equalPairs([[3,2,1],[1,7,6],[2,7,7]]);
-echo "\n";
-echo $solution->equalPairs([[3,1,2,2],[1,4,4,5],[2,4,2,2],[2,4,2,2]]);
+echo $solution->removeStars('leet**cod*e');
+echo "<br>";
+echo $solution->removeStars('erase*****');
