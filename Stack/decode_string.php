@@ -12,7 +12,7 @@ class Solution {
             $char = $s[$i];
 
             if(is_numeric($char)) {
-               $currentNumber = $currentNumber * 10 + intval($char);
+                $currentNumber = $currentNumber * 10 + intval($char);
             } elseif ($char === '[') {
                 array_push($stack, $currentString);
                 array_push($stack, $currentNumber);
@@ -24,7 +24,7 @@ class Solution {
                 $previousNumber = array_pop($stack);
                 $previousString = array_pop($stack);
 
-               $currentString = $previousString . str_repeat($currentString, $previousNumber);
+                $currentString = $previousString . str_repeat($currentString, $previousNumber);
             } else {
                 $currentString .= $char;
             }
