@@ -10,7 +10,7 @@ class solution {
            $complement = $target - $nums[$i];
 
            if(isset($map[$complement])){
-               return [$map[$complement], $i];
+               return [$map[$complement],$i];
            }
            $map[$nums[$i]] = $i;
         }
