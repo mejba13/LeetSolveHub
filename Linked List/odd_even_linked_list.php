@@ -1,6 +1,5 @@
 <?php
 
-
 class Solution {
 
     function oddEvenList($head) {
