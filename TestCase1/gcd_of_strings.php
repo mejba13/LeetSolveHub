@@ -7,7 +7,7 @@ class Solution {
             return "";
         }
 
-         $gcdLength = $this->gcd(strlen($str1), strlen($str2));
+        $gcdLength = $this->gcd(strlen($str1), strlen($str2));
 
         return substr($str1, 0, $gcdLength );
     }
