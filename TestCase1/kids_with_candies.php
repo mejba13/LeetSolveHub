@@ -3,13 +3,13 @@
 class Solution {
 
     function KidsWithCandies($candies, $extraCandies) {
-         $maxCandies = max($candies);
-         $result = [];
+        $maxCandies = max($candies);
+        $result = [];
 
-         foreach ($candies as $candie) {
-             $result[] = ($candie + $extraCandies) >= $maxCandies;
-         }
-         return $result;
+        foreach ($candies as $candie) {
+            $result[] = ($candie + $extraCandies) >= $maxCandies;
+        }
+        return $result;
     }
 }
 
