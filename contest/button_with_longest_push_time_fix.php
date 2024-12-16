@@ -26,4 +26,4 @@ class Solution {
 $solution = new Solution();
 echo $solution->buttonWithLongestTime([[1,2],[2,5],[3,9],[1,15]]);
 echo "<br>";
-echo $solution->buttonWithLongestTime([[10,5],[1,7]]);©leetcode
+echo $solution->buttonWithLongestTime([[10,5],[1,7]]);
