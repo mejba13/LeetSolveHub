@@ -2,34 +2,53 @@
 
 class Solution {
 
-    function maxScore($nums1, $nums2, $k) {
+    function totalCost($costs, $k, $candidates) {
+        $totalCost = 0;
+        $n = count($costs);
+        $frontHeap = new SplMinHeap();
+        $backHeap = new SplMinHeap();
 
-        $n = count($nums1);
-        $pairs = [];
-        for ($i = 0; $i < $n; $i++) {
-            $pairs[] = [$nums2[$i], $nums1[$i]];
-        }
-        rsort($pairs);
-        $heap = new SplMinHeap();
-        $currentSum = 0;
-        $maxScore = 0;
+        $frontIndex = 0;
+        $backIndex = $n - 1;
 
-        foreach ($pairs as [$currentMin, $val]) {
-            $heap->insert($val);
-            $currentSum += $val;
-            if ($heap->count() > $k) {
-                $currentSum -= $heap->extract();
-            }
-            if ($heap->count() == $k) {
-                $maxScore = max($maxScore, $currentSum * $currentMin);
+        for ($i = 0; $i < $candidates && $frontIndex <= $backIndex; $i++) {
+            $frontHeap->insert([$costs[$frontIndex], $frontIndex]);
+            $frontIndex++;
+        }
+        for ($i = 0; $i < $candidates && $backIndex >= $frontIndex; $i++) {
+            $backHeap->insert([$costs[$backIndex], $backIndex]);
+            $backIndex--;
+        }
+
+        for ($i = 0; $i < $k; $i++) {
+            $frontWorker = $frontHeap->isEmpty() ? [PHP_INT_MAX, -1] : $frontHeap->extract();
+            $backWorker = $backHeap->isEmpty() ? [PHP_INT_MAX, -1] : $backHeap->extract();
+
+            if ($frontWorker[0] < $backWorker[0] || ($frontWorker[0] == $backWorker[0] && $frontWorker[1] < $backWorker[1])) {
+                $totalCost += $frontWorker[0];
+
+                if ($frontIndex <= $backIndex) {
+                    $frontHeap->insert([$costs[$frontIndex], $frontIndex]);
+                    $frontIndex++;
+                } else {
+                    $backHeap->insert($backWorker);
+                }
+            } else {
+                $totalCost += $backWorker[0];
+                if ($backIndex >= $frontIndex) {
+                    $backHeap->insert([$costs[$backIndex], $backIndex]);
+                    $backIndex--;
+                } else {
+                    $frontHeap->insert($frontWorker);
+                }
             }
         }
-        return $maxScore;
+
+        return $totalCost;
     }
-
 }
 
 $solution = new Solution();
-echo $solution->maxScore([1,3,3,2],[2,1,3,4], 3);
+echo $solution->totalCost([17,12,10,2,7,2,11,20,8], 3, 4);
 echo "<br>";
-echo $solution->maxScore([4,2,3,1,1],[7,5,10,9,6], 1);
+echo $solution->totalCost([1,2,4,1], 3, 3);
