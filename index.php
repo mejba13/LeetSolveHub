@@ -2,29 +2,24 @@
 
 class Solution {
 
-    function tribonacci($n)
-    {
-        if($n == 0) return 0;
-        if($n == 1 || $n == 2 ) return 1;
+    function numTilings($n) {
+        $mod = 1e9 + 7;
 
-        $t0 = 0;
-        $t1 = 1;
-        $t2 = 1;
+        if ($n == 1) return 1;
+        if ($n == 2) return 2;
+        if ($n == 3) return 5;
 
-        for($i = 3; $i <= $n; $i++) {
-            $t3 = $t0 + $t1 + $t2;
-            $t0 = $t1;
-            $t1 = $t2;
-            $t2 = $t3;
+        $dp = [0, 1, 2, 5];
+
+        for ($i = 4; $i <= $n; $i++) {
+            $dp[$i] = ($dp[$i - 1] + $dp[$i - 2] + 2 * $dp[$i - 3]) % $mod;
         }
 
-        return $t2;
-
+        return $dp[$n];
     }
-
 }
 
 $solution = new Solution();
-echo $solution->tribonacci(4);
+echo $solution->numTilings(3);
 echo "<br>";
-echo $solution->tribonacci(25);
+echo $solution->numTilings(1);
