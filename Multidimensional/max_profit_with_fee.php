@@ -13,7 +13,7 @@ class Solution {
             $hold = max($hold, $cash - $prices[$i]);
         }
 
-        return $cash;
+        return $cash; // Final profit when not holding a stock
     }
 }
 
