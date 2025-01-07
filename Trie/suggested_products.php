@@ -1,6 +1,10 @@
 <?php
 class Solution {
-
+    /**
+     * @param String[] $products
+     * @param String $searchWord
+     * @return String[][]
+     */
     function suggestedProducts($products, $searchWord) {
 
         sort($products);
@@ -33,7 +37,5 @@ $solution = new Solution();
 $products = ["mobile", "mouse", "moneypot", "monitor", "mousepad"];
 $searchWord = "mouse";
 $result = $solution->suggestedProducts($products, $searchWord);
-echo "<pre>";
 print_r($result);
-echo "</pre>";
 
