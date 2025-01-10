@@ -1,7 +1,6 @@
 <?php
 
 class Solution {
-
     /**
      * @param Integer[] $costs
      * @param Integer $k
@@ -11,10 +10,10 @@ class Solution {
     function totalCost($costs, $k, $candidates) {
         $totalCost = 0;
         $n = count($costs);
+
+        // Min-heaps for both sides
         $frontHeap = new SplPriorityQueue();
         $backHeap = new SplPriorityQueue();
-
-        // Use heaps as min-heaps by inverting priorities
         $frontHeap->setExtractFlags(SplPriorityQueue::EXTR_BOTH);
         $backHeap->setExtractFlags(SplPriorityQueue::EXTR_BOTH);
 
@@ -23,37 +22,57 @@ class Solution {
 
         // Initialize heaps with candidates
         for ($i = 0; $i < $candidates && $frontIndex <= $backIndex; $i++) {
-            $frontHeap->insert([$costs[$frontIndex], $frontIndex], -$costs[$frontIndex]);
+            $frontHeap->insert($frontIndex, -$costs[$frontIndex]);
             $frontIndex++;
         }
 
         for ($i = 0; $i < $candidates && $backIndex >= $frontIndex; $i++) {
-            $backHeap->insert([$costs[$backIndex], $backIndex], -$costs[$backIndex]);
+            $backHeap->insert($backIndex, -$costs[$backIndex]);
             $backIndex--;
         }
 
         // Hire workers
         for ($i = 0; $i < $k; $i++) {
-            $frontWorker = !$frontHeap->isEmpty() ? $frontHeap->extract() : ['data' => [PHP_INT_MAX, -1]];
-            $backWorker = !$backHeap->isEmpty() ? $backHeap->extract() : ['data' => [PHP_INT_MAX, -1]];
+            if (!$frontHeap->isEmpty() && !$backHeap->isEmpty()) {
+                $frontWorker = $frontHeap->extract();
+                $backWorker = $backHeap->extract();
 
-            if ($frontWorker['data'][0] < $backWorker['data'][0] ||
-                ($frontWorker['data'][0] == $backWorker['data'][0] && $frontWorker['data'][1] < $backWorker['data'][1])) {
-                // Choose front worker
-                $totalCost += $frontWorker['data'][0];
+                if (-$frontWorker['priority'] < -$backWorker['priority'] ||
+                    (-$frontWorker['priority'] == -$backWorker['priority'] && $frontWorker['data'] < $backWorker['data'])) {
+                    $totalCost += -$frontWorker['priority'];
 
-                // Add the next candidate to the front heap if available
+                    if ($frontIndex <= $backIndex) {
+                        $frontHeap->insert($frontIndex, -$costs[$frontIndex]);
+                        $frontIndex++;
+                    }
+
+                    // Reinsert backWorker since it wasn't used
+                    $backHeap->insert($backWorker['data'], $backWorker['priority']);
+                } else {
+                    $totalCost += -$backWorker['priority'];
+
+                    if ($backIndex >= $frontIndex) {
+                        $backHeap->insert($backIndex, -$costs[$backIndex]);
+                        $backIndex--;
+                    }
+
+                    // Reinsert frontWorker since it wasn't used
+                    $frontHeap->insert($frontWorker['data'], $frontWorker['priority']);
+                }
+            } elseif (!$frontHeap->isEmpty()) {
+                $frontWorker = $frontHeap->extract();
+                $totalCost += -$frontWorker['priority'];
+
                 if ($frontIndex <= $backIndex) {
-                    $frontHeap->insert([$costs[$frontIndex], $frontIndex], -$costs[$frontIndex]);
+                    $frontHeap->insert($frontIndex, -$costs[$frontIndex]);
                     $frontIndex++;
                 }
-            } else {
-                // Choose back worker
-                $totalCost += $backWorker['data'][0];
+            } elseif (!$backHeap->isEmpty()) {
+                $backWorker = $backHeap->extract();
+                $totalCost += -$backWorker['priority'];
 
-                // Add the next candidate to the back heap if available
                 if ($backIndex >= $frontIndex) {
-                    $backHeap->insert([$costs[$backIndex], $backIndex], -$costs[$backIndex]);
+                    $backHeap->insert($backIndex, -$costs[$backIndex]);
                     $backIndex--;
                 }
             }
@@ -65,5 +84,4 @@ class Solution {
 
 // Example usage
 $solution = new Solution();
-echo $solution->totalCost([17,12,10,2,7,2,11,20,8], 3, 4) . "\n"; // Output: 11
-echo $solution->totalCost([1,2,4,1], 3, 3) . "\n"; // Output: 4
+echo $solution->totalCost([17, 12, 10, 2, 7, 2, 11, 20, 8], 3, 4); // Output: 11
